@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
 
 const ResultContext = createContext();
-const baseUrl = "https://google-search-2.p.rapidapi.com/";
+const baseUrl = "https://google-search-2.p.rapidapi.com";
 
 export const ResultContextProvider = ({ children }) => {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("Elon Musk");
 
   // /videos, /search, /images
   const getResults = async (type) => {
@@ -14,12 +14,13 @@ export const ResultContextProvider = ({ children }) => {
     const response = await fetch(`${baseUrl}${type}`, {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "e10cfc12cbmshd305f83d16e9f31p1510a9jsn0d17c481969e",
+        "X-RapidAPI-Key": process.env.REACT_APP_API_KEY,
         "X-RapidAPI-Host": "google-search-2.p.rapidapi.com",
       },
     });
 
     const data = await response.json();
+    console.log(data);
     setResults(data);
     setIsLoading(false);
   };
